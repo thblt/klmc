@@ -4,7 +4,12 @@ import KLMC.Types
 
 data XKBConfig = XKBConfig
   { extraIncludes :: [String] -- | Extra includes to append after the mapping definition.
-  , composeFilename :: String }
+  , composeFilename :: String
+  , layerHint :: Layer -> XKBLevel
+  , deadKeySymbols :: }
+
+type
+type XKBLevel = Int
 
 -- | Run the two auxiliary compilers in sequence: `xkbCompiler`,
 -- | then `composeCompiler`.

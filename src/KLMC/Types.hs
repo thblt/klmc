@@ -6,13 +6,21 @@ import Control.Monad.Reader
 import Control.Monad.Writer (WriterT)
 import Data.Default
 
-import Data.Map
+import Data.Map (Map)
 import KLMC.Keys
 
 -- * Layout representation
 
+-- | A layout is a map of State to a map of Key to a map of Layer to
+-- Effect.  Obscure? think of it as State -» Key -> Layer -> Effect.
+
+type Layout s k l e = Map s (Map k (Map l e))
+
+type KLMCLayout = Layout State Key Layer Effect
+
 -- | General configuration for a layout.  Where exactly this ends up
 -- is compiler-dependant.
+
 data Config = Config
   { name :: String }
    deriving (Eq, Ord, Read, Show)
@@ -30,6 +38,7 @@ data Config = Config
 -- dead keys.  Most systems don't allow to express dead keys as a
 -- state machine, so states will have to be reduced to the nearest
 -- approximation.
+
 data State =
   NormalState
   | DeadState
@@ -73,6 +82,7 @@ data State =
 -- Because of this variety, Compilers will probably expose a
 -- translation function from Layer (or more exactly, [a] defaulting to
 -- [Layer]) to their preferred internal representation.
+
 data Layer = Layer
   { level :: Int -- 0 for base, 1 for altGr, n… for further levels.
   , modifiers :: ModifierMask }
@@ -144,15 +154,10 @@ instance Effectuable Char where
 class Layerable a where
   asLayers :: a -> Map Layer Effect
 
--- At this point, everything is in place. I think the best binding
--- model is a map of maps:
-
-type Layout = Map State (Map Key (Map Layer Effect))
-
 -- | Keys are Ints in disguise.
 newtype Key =  Key Int
 
 -- * Compiler
 
 -- | A Compiler turns a layout into a series of named files.
-type Compiler = Config -> Layout -> [(FilePath, String)]
+type Compiler = Config -> KLMCLayout -> [(FilePath, String)]

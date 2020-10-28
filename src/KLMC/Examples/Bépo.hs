@@ -14,19 +14,13 @@ bépo = do
   map  kW           [ 'é'        , 'É'                , deadAcute        , '♥'         ]
   map  kE           [ 'p'        , 'P'                , '&'              , '§'         ]
   map  kR           [ 'o'        , 'O'                , 'œ'              , 'Œ'         ]
-  withState deadAcute $ do
+  onState deadAcute $ do
     map' kR         [ 'ó'        , 'Ó' ]
   map kT            [ 'è'        , 'È'                , deadGrave        , '`'         ]
 
 
 bepoConfig = Config
-  { name = "BÉPO (French, ergonomic, like Dvorak, )"
-  , variant = "NF Z71-300 stric)"
-  , version = "0.1"
-  , author = "Thibault Polge <thibault@thb.lt>"
-  , url = "https://github.com/thblt/klmc"
-  , copyright = "Thibault Polge 2020"
-  , license = "CC-PD" }
+  { name = "BÉPO (French, ergonomic, like Dvorak, NF Z71-300)" }
 
 vkLayer = Layer
 
