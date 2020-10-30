@@ -2,19 +2,26 @@
 
 module KLMC.Types where
 
-import Control.Monad.Reader
-import Control.Monad.Writer (WriterT)
-import Data.Default
+import safe Control.Monad.Reader ()
+import safe Data.Default ( Default (..) )
 
 import Data.Map (Map)
-import KLMC.Keys
+import safe KLMC.Keys ()
 
--- * Layout representation
+-- * Layout
 
 -- | A layout is a map of State to a map of Key to a map of Layer to
--- Effect.  Obscure? think of it as State -» Key -> Layer -> Effect.
+-- Effect.  Obscure? think of it as State -> Key -> Layer -> Effect.
+-- Because compilers can have their preferred representation for
+-- states, keys, etc, the layout type is fully polymorphic.
 
 type Layout s k l e = Map s (Map k (Map l e))
+
+-- | But because all compilers need to share a common languages,
+-- layouts will usually be described with a default specialization.
+-- Technically, this is just a convenience: since compilers expose
+-- their translators, you can use any repr you wish as long as you can
+-- feed the compilers something they can work with.
 
 type KLMCLayout = Layout State Key Layer Effect
 
@@ -152,7 +159,19 @@ instance Effectuable Char where
 -- | Another class to simplify notation, so we can express layered
 -- bindings with tuples or lists.
 class Layerable a where
-  asLayers :: a -> Map Layer Effect
+  asLayers :: a -> [Effect]
+
+instance (Effectuable a) => Layerable [a] where
+  asLayers = fmap asEffect
+
+instance (Effectuable a, Effectuable b) => Layerable (a, b) where
+  asLayers (a, b) = [asEffect a, asEffect b]
+
+instance (Effectuable a, Effectuable b, Effectuable c) => Layerable (a, b, c) where
+  asLayers (a, b, c) = [ asEffect a, asEffect b, asEffect c ]
+
+instance (Effectuable a, Effectuable b, Effectuable c, Effectuable d) => Layerable (a, b, c, d) where
+  asLayers (a, b, c, d) = [ asEffect a, asEffect b, asEffect c, asEffect d ]
 
 -- | Keys are Ints in disguise.
 newtype Key =  Key Int

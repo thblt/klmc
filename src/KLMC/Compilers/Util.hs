@@ -16,8 +16,13 @@ translateLayout = undefined
 filterLayout :: Layout s k l e -> (s -> k -> l -> e -> Bool) -> Layout s k l e
 filterLayout = undefined
 
---flattenLayout :: Layout s k l e -> [(s, k, l, e)]
---flattenLayout x = foldMap
+flattenLayout :: Layout s k l e -> [(s, Map k (M.Map l e))]
+flattenLayout = M.toList
+
+
+-- flattenLayout' :: Layout s k l e -> Map s (Map k [(l, e)])
+-- flattenLayout' :: Map a (Map b (Map c d) ) -> []
+flattenLayout' x =  M.toList (fmap M.toList $ (fmap . fmap) M.toList x)
 
 
 -- | Collect all unique layers in a layout.

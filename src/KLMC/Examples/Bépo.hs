@@ -9,13 +9,12 @@ bépo = do
              , layer 0 shifted
              , layer 1 def
              , layer 1 shifted ]
-  --                  {- Base -} , {- Shift + caps -} , {- Level3/AltG-} , {- 3+shift -}
-  map  kQ           [ 'b'        , 'B'                , '|'              , '_'         ]
-  map  kW           [ 'é'        , 'É'                , deadAcute        , '♥'         ]
-  map  kE           [ 'p'        , 'P'                , '&'              , '§'         ]
-  map  kR           [ 'o'        , 'O'                , 'œ'              , 'Œ'         ]
-  onState deadAcute $ do
-    map' kR         [ 'ó'        , 'Ó' ]
+  --                  {- Base -} , {- S/hift + caps -} , {- Level3/AltG-} , {- 3+shift -}
+  map kQ           [ 'b'        , 'B'                , '|'              , '_'         ]
+  map kW           [ 'é'        , 'É'                , deadAcute        , '♥'         ]
+  map kE           [ 'p'        , 'P'                , '&'              , '§'         ]
+  map kR           [ 'o'        , 'O'                , 'œ'              , 'Œ'         ]
+  on deadAcute     [ 'ó'        , 'Ó' ]
   map kT            [ 'è'        , 'È'                , deadGrave        , '`'         ]
 
 

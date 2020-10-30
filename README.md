@@ -69,13 +69,14 @@ and each target's limitations in their regard.
    - **Windows** support probably the same as XKB.
  2. **Unlimited layers**
    - **XKB** has up to eight levels, including shifted levels, maybe
-     more, I need to check :).  That means three AltGr-ish keys.
+     more, I need to check.  That means three AltGr-ish keys.
    - **MacOS** supports as many layers as can be expressed with its
      standard modifiers.
    - **Windows** TBD.
  3. **Layers on special modifiers**
    - **XKB** doesn't support that, and layers that use Ctrl and other
-     control modifiers are dropped at compilation.
+     control modifiers are dropped at compilation.  Or [maybe it
+     does](https://unix.stackexchange.com/questions/609605/xkb-transparently-map-modifier-level/610330#610330).
    - **MacOS** fully supports it.  If you have a key that's "é" in the
      base layer, you can bind it to "c" in the "command key pressed"
      layer.  In this case, Command-é actually emits Command-C, the
