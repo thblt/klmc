@@ -10,12 +10,12 @@ bépo = do
              , layer 1 def
              , layer 1 shifted ]
   --                  {- Base -} , {- S/hift + caps -} , {- Level3/AltG-} , {- 3+shift -}
-  map kQ           [ 'b'        , 'B'                , '|'              , '_'         ]
-  map kW           [ 'é'        , 'É'                , deadAcute        , '♥'         ]
-  map kE           [ 'p'        , 'P'                , '&'              , '§'         ]
-  map kR           [ 'o'        , 'O'                , 'œ'              , 'Œ'         ]
-  on deadAcute     [ 'ó'        , 'Ó' ]
-  map kT            [ 'è'        , 'È'                , deadGrave        , '`'         ]
+  map kQ           ( 'b'        , 'B'                , '|'              , '_'         )
+  map kW           ( 'é'        , 'É'                , deadAcute        , '♥'         )
+  map kE           ( 'p'        , 'P'                , '&'              , '§'         )
+  map kR           ( 'o'        , 'O'                , 'œ'              , 'Œ'         )
+  on deadAcute     ( 'ó'        , 'Ó' )
+  map kT            ( 'è'        , 'È'                , deadGrave        , '`'         )
 
 
 bepoConfig = Config

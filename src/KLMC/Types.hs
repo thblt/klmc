@@ -1,3 +1,12 @@
+{-|
+Module      : KLMC.Types
+Description : Fundamental types
+Copyright   : © 2020 Thibault Polge
+License     : GPL-3
+Maintainer  : thibault@thb.lt
+Stability   : experimental
+-}
+
 {-# LANGUAGE Safe #-}
 
 module KLMC.Types where
@@ -36,7 +45,7 @@ data Config = Config
 
 -- | KLMC treats a layout as fundamentally a state machine, with a
 -- twist: there are two parallel state systems, States and Layers.
--- States are used to implement dead keys: dead keys enable a state,
+-- States are used to implement dead keys: dead keys enter a state,
 -- and bindings are state-dependant.  Layers are used to implement
 -- shift and other modifiers.
 --
@@ -44,7 +53,7 @@ data Config = Config
 -- abstraction than layers, that's better be ignored when not configuring
 -- dead keys.  Most systems don't allow to express dead keys as a
 -- state machine, so states will have to be reduced to the nearest
--- approximation.
+-- approximation (usually character transformations)
 
 data State =
   NormalState
@@ -52,7 +61,7 @@ data State =
     { stateId :: String
     , combiningChar :: Maybe Char
     , repr :: String }
-    deriving (Eq, Ord, Read, Show)
+  deriving (Eq, Ord, Read, Show)
 
 -- | Layers are a complex thing, because they're really the most
 -- platform-specific of all abstractions.
@@ -96,6 +105,9 @@ data Layer = Layer
   deriving (Eq, Ord, Read, Show)
 
 -- | Modifier mask for a layer.
+--
+-- The semantics of modifier combinations are underspecified at this
+-- level.  This is because various OS handle them very differently,
 --
 -- Only MacOS fully supports this.  For Windows, this gets degraded by
 -- collapsing all the non-shift modifiers into a single (commandState
@@ -174,7 +186,7 @@ instance (Effectuable a, Effectuable b, Effectuable c, Effectuable d) => Layerab
   asLayers (a, b, c, d) = [ asEffect a, asEffect b, asEffect c, asEffect d ]
 
 -- | Keys are Ints in disguise.
-newtype Key =  Key Int
+newtype Key = Key Int
 
 -- * Compiler
 
